@@ -1,4 +1,4 @@
-package com.clemer.stock.utils;
+package com.clemer.stock.utils.mapper;
 
 import com.clemer.stock.domain.dtos.CategoryDTO;
 import com.clemer.stock.domain.dtos.CreateCategoryRequest;

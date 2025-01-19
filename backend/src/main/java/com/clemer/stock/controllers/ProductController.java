@@ -1,15 +1,17 @@
 package com.clemer.stock.controllers;
 
 import com.clemer.stock.domain.dtos.CreateProductRequest;
+import com.clemer.stock.domain.dtos.PageDTO;
 import com.clemer.stock.domain.dtos.ProductDTO;
-import com.clemer.stock.domain.entities.Product;
 import com.clemer.stock.services.ProductService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -22,6 +24,16 @@ public class ProductController {
     @GetMapping
     public List<ProductDTO> getProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/filter")
+    public PageDTO<ProductDTO> getFilteredProducts(@RequestParam(required = false) String name,
+                                                   @RequestParam(required = false) Long category,
+                                                   @RequestParam(required = false) BigDecimal minPrice,
+                                                   @RequestParam(required = false) BigDecimal maxPrice,
+                                                   @RequestParam(required = false) Boolean isAvailable,
+                                                   @PageableDefault(size = 10, sort = "name") Pageable pageable) {
+        return productService.getFilteredProducts(name, category, minPrice, maxPrice, isAvailable, pageable);
     }
 
     @GetMapping("/{id}")

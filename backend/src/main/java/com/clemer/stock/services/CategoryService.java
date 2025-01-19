@@ -5,7 +5,7 @@ import com.clemer.stock.domain.dtos.CreateCategoryRequest;
 import com.clemer.stock.domain.entities.Category;
 import com.clemer.stock.exceptions.CategoryNotFoundException;
 import com.clemer.stock.repositories.CategoryRepository;
-import com.clemer.stock.utils.CategoryMapper;
+import com.clemer.stock.utils.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
