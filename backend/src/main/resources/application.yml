@@ -1,0 +1,40 @@
+stock-api:
+  jwt:
+    secret: 15c64fb177c1aa2b88e83bff9ea659a7e49a7cd1ae4c3a39b2fe14ecd7529c48e75c3baa57aa9373df03aff4e222ee3a22a0cc09110021b694b88b1c94d8c168
+    expirationInMillis: 604800000
+
+server:
+  port: 8080
+---
+spring:
+  application:
+    name: stock
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stock
+    driver-class-name: org.postgresql.Driver
+    username: superUser
+    password: secret@123
+    hikari:
+      read-only: false
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_schema: STOCK
+        type: trace
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+---
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    sql: debug
+
+---
