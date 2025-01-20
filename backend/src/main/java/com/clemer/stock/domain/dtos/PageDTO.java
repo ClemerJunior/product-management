@@ -16,6 +16,6 @@ public class PageDTO<T> {
     private int pageSize;
 
     private int totalPages;
-    private int totalElements;
+    private long totalElements;
 
 }

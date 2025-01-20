@@ -19,7 +19,6 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    @RolesAllowed({"ADD", "UPDATE", "DELETE"})
     public List<CategoryDTO> getAllCategories() {
         return categoryService.findAll();
     }

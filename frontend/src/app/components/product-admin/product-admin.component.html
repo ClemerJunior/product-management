@@ -1,0 +1,85 @@
+<div class="product-list">
+  <div class="filters">
+    <mat-form-field>
+      <mat-label>Filter by Name</mat-label>
+      <input matInput [(ngModel)]="filters.name" (ngModelChange)="onFilterChange()" placeholder="Product Name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by Category</mat-label>
+      <mat-select [(ngModel)]="filters.category" (ngModelChange)="onFilterChange()" placeholder="Select Category">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by Price</mat-label>
+      <input matInput [(ngModel)]="filters.minPrice" (ngModelChange)="onFilterChange()" placeholder="minPrice">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Filter by Price</mat-label>
+      <input matInput [(ngModel)]="filters.maxPrice" (ngModelChange)="onFilterChange()" placeholder="maxPrice">
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let product">{{ product.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+      <td mat-cell *matCellDef="let product">{{ product.price | currency }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef>Stock</th>
+      <td mat-cell *matCellDef="let product">{{ product.stock }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let product">{{ product.category.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryPath">
+      <th mat-header-cell *matHeaderCellDef>Category Path</th>
+      <td mat-cell *matCellDef="let product">{{ product.category.categoryPath }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="available">
+      <th mat-header-cell *matHeaderCellDef>Available</th>
+      <td mat-cell *matCellDef="let product">
+        <mat-icon>{{ product.available ? 'check' : 'close' }}</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let product">
+        <button mat-button class="updateButton" (click)="updateProduct(product.id)">Update</button>
+        <button mat-button class="deleteButton" (click)="deleteProduct(product.id)">Delete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalProducts"
+    [pageSize]="10"
+    (page)="loadProducts($event.pageIndex, $event.pageSize, 'name,asc')"
+  ></mat-paginator>
+
+  <button mat-button class="addButton" (click)="insertProduct()">Insert</button>
+</div>

@@ -1,0 +1,14 @@
+<header class="app-header">
+  <div class="logo">
+    <span>Stock Management</span>
+  </div>
+  <div class="auth-info">
+    <ng-container *ngIf="isLoggedIn(); else loggedOut">
+      <span>loggedIn User: {{ username }}</span>
+      <button mat-button class="logoutButton" (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #loggedOut>
+      <button mat-button (click)="login()">Login</button>
+    </ng-template>
+  </div>
+</header>

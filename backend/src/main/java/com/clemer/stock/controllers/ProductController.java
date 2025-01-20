@@ -1,6 +1,6 @@
 package com.clemer.stock.controllers;
 
-import com.clemer.stock.domain.dtos.CreateProductRequest;
+import com.clemer.stock.domain.dtos.CreateUpdateProductRequest;
 import com.clemer.stock.domain.dtos.PageDTO;
 import com.clemer.stock.domain.dtos.ProductDTO;
 import com.clemer.stock.services.ProductService;
@@ -44,14 +44,14 @@ public class ProductController {
 
     @PostMapping
     @Secured("ADD")
-    public ProductDTO addProduct(@RequestBody CreateProductRequest request) {
+    public ProductDTO addProduct(@RequestBody CreateUpdateProductRequest request) {
         return productService.addProduct(request);
     }
 
     @PutMapping("/{id}")
     @Secured("UPDATE")
-    public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        return productService.updateProduct(id, productDTO);
+    public ProductDTO updateProduct(@PathVariable Long id, @RequestBody CreateUpdateProductRequest request) {
+        return productService.updateProduct(id, request);
     }
 
     @DeleteMapping("/{id}")

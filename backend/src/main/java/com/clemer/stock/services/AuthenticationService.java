@@ -1,6 +1,7 @@
 package com.clemer.stock.services;
 
 import com.clemer.stock.domain.dtos.AuthRequestDTO;
+import com.clemer.stock.domain.dtos.AuthResponseDTO;
 import com.clemer.stock.utils.security.JwtTokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +14,10 @@ public class AuthenticationService {
     private final AuthenticationManager authManager;
     private final JwtTokenManager jwtTokenManager;
 
-    public String authenticate(AuthRequestDTO authRequest) {
+    public AuthResponseDTO authenticate(AuthRequestDTO authRequest) {
         var authentication = authManager.authenticate(authRequest.build());
-        return jwtTokenManager.generateToken(authentication);
+        String token = jwtTokenManager.generateToken(authentication);
+
+        return new AuthResponseDTO(authRequest.getUsername(), token);
     }
 }

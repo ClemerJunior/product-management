@@ -1,6 +1,6 @@
 package com.clemer.stock.utils.mapper;
 
-import com.clemer.stock.domain.dtos.CreateProductRequest;
+import com.clemer.stock.domain.dtos.CreateUpdateProductRequest;
 import com.clemer.stock.domain.dtos.ProductDTO;
 import com.clemer.stock.domain.entities.Product;
 import lombok.AccessLevel;
@@ -21,20 +21,15 @@ public class ProductMapper {
         return productDTO;
     }
 
-    public static Product mapCreateProductRequestToProduct(CreateProductRequest createProductRequest) {
-        Product product = new Product();
-        product.setName(createProductRequest.getName());
-        product.setPrice(createProductRequest.getPrice());
-        product.setDescription(createProductRequest.getDescription());
-        product.setStock(createProductRequest.getStock());
-        return product;
+    public static Product mapCreateProductRequestToProduct(CreateUpdateProductRequest createUpdateProductRequest) {
+        return copyUpdateProductRequestToProduct(createUpdateProductRequest, new Product());
     }
 
-    public static Product mapProductDTOToProduct(ProductDTO productDTO, Product product) {
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setDescription(productDTO.getDescription());
-        product.setStock(productDTO.getStock());
+    public static Product copyUpdateProductRequestToProduct(CreateUpdateProductRequest request, Product product) {
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setDescription(request.getDescription());
+        product.setStock(request.getStock());
         return product;
     }
 }

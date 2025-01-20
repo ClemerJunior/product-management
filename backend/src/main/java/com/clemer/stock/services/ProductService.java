@@ -1,6 +1,6 @@
 package com.clemer.stock.services;
 
-import com.clemer.stock.domain.dtos.CreateProductRequest;
+import com.clemer.stock.domain.dtos.CreateUpdateProductRequest;
 import com.clemer.stock.domain.dtos.PageDTO;
 import com.clemer.stock.domain.dtos.ProductDTO;
 import com.clemer.stock.domain.entities.Category;
@@ -60,17 +60,16 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO addProduct(CreateProductRequest request) {
+    public ProductDTO addProduct(CreateUpdateProductRequest request) {
         Product product = ProductMapper.mapCreateProductRequestToProduct(request);
-        Category category = loadCategory(request.getIdCategory());
-        product.setCategory(category);
+        product.setCategory(loadCategory(request.getIdCategory()));
         return ProductMapper.mapProductToProductDTO(productRepository.save(product));
     }
 
     @Transactional
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) throws CategoryDoesNotExistException {
-        Product product = ProductMapper.mapProductDTOToProduct(productDTO,loadProductById(id));
-        product.setCategory(loadCategory(productDTO.getCategory().getId()));
+    public ProductDTO updateProduct(Long id, CreateUpdateProductRequest request) throws CategoryDoesNotExistException {
+        Product product = ProductMapper.copyUpdateProductRequestToProduct(request,loadProductById(id));
+        product.setCategory(loadCategory(request.getIdCategory()));
         return ProductMapper.mapProductToProductDTO(productRepository.save(product));
     }
 

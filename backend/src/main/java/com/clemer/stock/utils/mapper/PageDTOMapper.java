@@ -11,7 +11,7 @@ public class PageDTOMapper {
         pageDTO.setPageSize(page.getSize());
         pageDTO.setPageNumber(page.getNumber());
         pageDTO.setTotalPages(page.getTotalPages());
-        pageDTO.setTotalElements(page.getNumberOfElements());
+        pageDTO.setTotalElements(page.getTotalElements());
         pageDTO.setItems(page.getContent());
         return pageDTO;
     }

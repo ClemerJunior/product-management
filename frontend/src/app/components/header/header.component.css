@@ -1,0 +1,37 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #3f51b5;
+  color: white;
+  font-size: 18px;
+}
+
+.app-header .logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.app-header .auth-info {
+  display: flex;
+  align-items: center;
+}
+
+.app-header .auth-info button {
+  background-color: #ffffff;
+  color: #3f51b5;
+  border: none;
+  padding: 5px 15px;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.app-header .auth-info button:hover {
+  background-color: #f5f5f5;
+}
+
+.logoutButton {
+  margin-left: 20px;
+}
