@@ -84,7 +84,7 @@ In the Docker Compose setup, the PostgreSQL database container is automatically 
 4. Running with H2 Database (Local Profile)
    If you want to use the H2 database for local development (without PostgreSQL), you just need to run the application with local profile
 
-## Technologies references
+## Technologies Referenced
 [Java - OpenJdk 21](https://www.java.com/)
 
 [Maven 3+](https://maven.apache.org/)
