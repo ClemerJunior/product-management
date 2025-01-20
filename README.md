@@ -6,6 +6,8 @@ The project includes Docker Compose to run both the frontend and backend togethe
 ## Technologies Used
 
 - ### Backend: 
+  - Java
+  - Maven
   - Spring Boot
   - Spring Security
   - Spring Data JPA
@@ -83,7 +85,9 @@ In the Docker Compose setup, the PostgreSQL database container is automatically 
    If you want to use the H2 database for local development (without PostgreSQL), you just need to run the application with local profile
 
 ## Technologies references
-[Java](https://www.java.com/)
+[Java - OpenJdk 21](https://www.java.com/)
+
+[Maven 3+](https://maven.apache.org/)
 
 [SpringBoot 3+](https://spring.io/projects/spring-boot)
 
