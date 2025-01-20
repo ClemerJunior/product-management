@@ -1,9 +1,11 @@
 package com.clemer.stock.domain.specification;
 
+import com.clemer.stock.domain.entities.Category;
 import com.clemer.stock.domain.entities.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 public class ProductSpecification {
@@ -13,9 +15,14 @@ public class ProductSpecification {
                 name == null ? null : criteriaBuilder.like(root.get("name"), "%" + name + "%");
     }
 
-    public static Specification<Product> hasCategory(Long categoryId) {
-        return (root, query, criteriaBuilder) ->
-                categoryId == null ? null : criteriaBuilder.equal(root.get("category").get("id"), categoryId);
+    public static Specification<Product> hasCategory(List<Category> categories) {
+        return (root, query, criteriaBuilder) -> {
+            if (categories == null || categories.isEmpty()) {
+                return criteriaBuilder.conjunction(); // Return a no-op predicate if no categories are provided
+            }
+            // Use `in` to create the predicate for the list of categories
+            return root.get("category").in(categories);
+        };
     }
 
     public static Specification<Product> hasPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {

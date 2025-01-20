@@ -34,7 +34,7 @@ export class ProductUpdateComponent implements OnInit {
     description: new FormControl(""),
     price: new FormControl(0.00, [Validators.min(0)]),
     stock: new FormControl(0, [Validators.min(0)]),
-    category: new FormControl(null, [Validators.required])
+    category: new FormControl(new CategoryModel(), [Validators.required])
   })
 
   constructor(
@@ -57,8 +57,12 @@ export class ProductUpdateComponent implements OnInit {
   loadProduct(): void {
     this.productService.getProduct(this.productId).subscribe(
       (product) => {
-        // @ts-ignore
-        this.form.patchValue(product);
+        this.form.setValue({name: product.name?? '',
+                                  description: product.description?? '',
+                                  price: product.price?? 0,
+                                  category: product.category?? new CategoryModel(),
+                                  stock: product.stock?? 0
+                                  });
       },
       (error) => {
         alert('Error loading product data.');
@@ -88,7 +92,7 @@ export class ProductUpdateComponent implements OnInit {
         description: this.form.value.description?? '',
         price: this.form.value.price?? 0.00,
         stock: this.form.value.stock?? 0,
-        idCategory: this.form.value.category?? 1
+        idCategory: this.form.value.category?.id?? 1
       }
 
       this.productService.updateProduct(this.productId,request).subscribe(

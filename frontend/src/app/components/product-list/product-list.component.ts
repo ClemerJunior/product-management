@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
@@ -42,6 +42,8 @@ export class ProductListComponent implements OnInit {
               private router: Router,
               private authService: AuthenticationService) {}
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   ngOnInit(): void {
     this.loadProducts(0, 10, 'name,asc');
   }
@@ -53,6 +55,7 @@ export class ProductListComponent implements OnInit {
   loadProducts(page: number, size: number, sort: string): void {
     this.productService.getProducts(page, size, sort, this.getTransformedFilters()).subscribe((data) => {
       this.dataSource.data = data.items;
+      this.dataSource.sort = this.sort
       this.totalProducts = data.totalElements;
     });
 

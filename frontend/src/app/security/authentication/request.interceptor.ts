@@ -14,10 +14,6 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
-    if (req.url.includes('/product') || req.url.includes('/category')) {
-      return next.handle(req);
-    }
-
     const token = localStorage.getItem('token');
 
     if (token) {

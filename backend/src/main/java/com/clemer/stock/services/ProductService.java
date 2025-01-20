@@ -1,5 +1,6 @@
 package com.clemer.stock.services;
 
+import com.clemer.stock.domain.dtos.CategoryDTO;
 import com.clemer.stock.domain.dtos.CreateUpdateProductRequest;
 import com.clemer.stock.domain.dtos.PageDTO;
 import com.clemer.stock.domain.dtos.ProductDTO;
@@ -14,12 +15,15 @@ import com.clemer.stock.utils.mapper.PageDTOMapper;
 import com.clemer.stock.utils.mapper.ProductMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +47,20 @@ public class ProductService {
                                                    BigDecimal maxPrice,
                                                    Boolean isAvailable,
                                                    Pageable pageable) {
+        List<Category> filteredCategories = null;
+
+        if(categoryId != null) {
+            filteredCategories = getAllChildCategories(categoryId);
+        }
+
         Specification<Product> specification = Specification
                 .where(ProductSpecification.hasName(name))
-                .and(ProductSpecification.hasCategory(categoryId))
+                .and(ProductSpecification.hasCategory(filteredCategories))
                 .and(ProductSpecification.hasPriceRange(minPrice, maxPrice))
                 .and(ProductSpecification.isAvailable(isAvailable));
+
+
+        Page<Product> products = productRepository.findAll(specification, pageable);
 
         return PageDTOMapper.mapPageToPageDTO(productRepository.findAll(specification, pageable)
                 .map(ProductMapper::mapProductToProductDTO));
@@ -86,6 +99,24 @@ public class ProductService {
     private Category loadCategory(Long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(CategoryDoesNotExistException::new);
+    }
+
+    private List<Category> getAllChildCategories(Long parentId) {
+        Category parent = loadCategory(parentId);
+        List<Category> children = fetchChildrenRecursive(parent);
+        children.add(parent);
+        return children;
+    }
+
+    private List<Category> fetchChildrenRecursive(Category parent) {
+        List<Category> children = categoryRepository.findByParentCategory(parent);
+        List<Category> allChildren = new ArrayList<>(children); // Create a new list to collect results
+
+        for (Category child : children) {
+            allChildren.addAll(fetchChildrenRecursive(child)); // Recursively fetch and add children
+        }
+
+        return allChildren;
     }
 
 }
