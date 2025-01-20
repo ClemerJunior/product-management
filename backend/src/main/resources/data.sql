@@ -1,5 +1,3 @@
-create schema IF NOT EXISTS STOCK;
-
 INSERT INTO stock.action (id, name, description) VALUES (1, 'ADD','Action allowed to add products');
 INSERT INTO stock.action (id, name, description) VALUES (2, 'UPDATE', 'Action allowed to update products');
 INSERT INTO stock.action (id, name, description) VALUES (3, 'DELETE', 'Action allowed to delete products');
